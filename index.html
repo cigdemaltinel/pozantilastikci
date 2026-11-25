@@ -312,6 +312,8 @@ nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,.5)}
 .svc-icon{width:46px;height:46px;margin-bottom:1.25rem;color:var(--a1);filter:drop-shadow(0 0 8px var(--glow-sm))}
 .svc-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em;margin:0 0 .6rem}
 .svc-desc{font-size:.875rem;color:var(--muted);line-height:1.65;margin:0}
+.svc-num{position:absolute;top:1rem;right:1.25rem;font-family:'Oswald',sans-serif;font-weight:700;font-size:2.75rem;line-height:1;color:var(--border);transition:color .35s}
+.svc-card:hover .svc-num{color:rgba(255,85,0,.12)}
 
 /* ── LOCATION ── */
 .loc-section{background:var(--s1);border-bottom:1px solid var(--border)}
@@ -562,48 +564,81 @@ footer{background:var(--s1)}
   <div class="svc-inner">
     <p class="section-eye">Hizmetlerimiz</p>
     <h2 class="section-h2">Her Lastik İhtiyacınız<br>İçin Buradayız</h2>
-    <div class="svc-grid">
+    <div class="svc-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+
       <div class="svc-card fade-up">
+        <span class="svc-num">01</span>
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="23" cy="28" r="12"/><circle cx="23" cy="28" r="5"/>
+          <path d="M14 16 L8 8"/><path d="M32 16 L38 8"/>
+          <line x1="8" y1="8" x2="38" y2="8"/><line x1="23" y1="8" x2="23" y2="16"/>
+        </svg>
+        <h3 class="svc-name">Yolda Lastik Değişimi</h3>
+        <p class="svc-desc">Yolda kalan araçlara hızlı lastik değişimi yapıyoruz. Yedeğiniz yoksa biz getiriyoruz.</p>
+      </div>
+
+      <div class="svc-card fade-up" style="transition-delay:.06s">
+        <span class="svc-num">02</span>
         <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="23" cy="23" r="18"/><circle cx="23" cy="23" r="10"/><circle cx="23" cy="23" r="3.5"/>
           <line x1="23" y1="5" x2="23" y2="13"/><line x1="23" y1="33" x2="23" y2="41"/>
           <line x1="5" y1="23" x2="13" y2="23"/><line x1="33" y1="23" x2="41" y2="23"/>
         </svg>
-        <h3 class="svc-name">Lastik Tamiri</h3>
-        <p class="svc-desc">Patlak ya da delik lastiklerinizi hızla onarıyoruz. Yolda kalmadan en kısa sürede yola devam edin.</p>
+        <h3 class="svc-name">Yolda Lastik Tamiri</h3>
+        <p class="svc-desc">Patlak ya da delik lastiğinizi yolda onarıyoruz. Zaman kaybetmeden yolculuğunuza devam edin.</p>
       </div>
-      <div class="svc-card fade-up" style="transition-delay:.07s">
+
+      <div class="svc-card fade-up" style="transition-delay:.12s">
+        <span class="svc-num">03</span>
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="22" width="30" height="12" rx="2"/>
+          <circle cx="11" cy="34" r="4"/><circle cx="27" cy="34" r="4"/>
+          <path d="M34 28 h4 l4 -6 h-10"/><line x1="4" y1="28" x2="4" y2="22"/>
+          <path d="M4 22 L10 14 h14 l6 8"/>
+        </svg>
+        <h3 class="svc-name">Yol Yardım</h3>
+        <p class="svc-desc">Pozantı Tünelleri, Adana-Niğde otoyolu ve çevresinde 7/24 acil yol yardım hizmeti.</p>
+      </div>
+
+      <div class="svc-card fade-up" style="transition-delay:.18s">
+        <span class="svc-num">04</span>
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="26" width="28" height="12" rx="2"/>
+          <circle cx="9" cy="38" r="4"/><circle cx="25" cy="38" r="4"/>
+          <path d="M31 32 h8 l4 -8 h-12"/>
+          <path d="M14 26 L14 18 L28 18 L28 26"/>
+          <line x1="21" y1="18" x2="21" y2="8"/><line x1="16" y1="8" x2="26" y2="8"/>
+        </svg>
+        <h3 class="svc-name">Oto Kurtarma</h3>
+        <p class="svc-desc">Kaza, çukur veya arıza nedeniyle mahsur kalan araçları kurtarıyor, güvenli konuma taşıyoruz.</p>
+      </div>
+
+      <div class="svc-card fade-up" style="transition-delay:.24s">
+        <span class="svc-num">05</span>
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="23" cy="23" r="16"/>
+          <circle cx="23" cy="23" r="7"/>
+          <line x1="23" y1="7" x2="23" y2="16"/><line x1="23" y1="30" x2="23" y2="39"/>
+          <line x1="7" y1="23" x2="16" y2="23"/><line x1="30" y1="23" x2="39" y2="23"/>
+          <path d="M12 12 L18 18"/><path d="M28 28 L34 34"/>
+          <path d="M34 12 L28 18"/><path d="M12 34 L18 28"/>
+        </svg>
+        <h3 class="svc-name">Jant Tamiri</h3>
+        <p class="svc-desc">Çarpma, kaza veya yol hasarı sonucu deformasyona uğrayan jantlarınızı onarıyoruz.</p>
+      </div>
+
+      <div class="svc-card fade-up" style="transition-delay:.30s">
+        <span class="svc-num">06</span>
         <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
           <ellipse cx="23" cy="35" rx="16" ry="5"/><ellipse cx="23" cy="27" rx="16" ry="5"/>
           <line x1="7" y1="27" x2="7" y2="35"/><line x1="39" y1="27" x2="39" y2="35"/>
           <ellipse cx="23" cy="19" rx="16" ry="5"/>
           <line x1="7" y1="19" x2="7" y2="27"/><line x1="39" y1="19" x2="39" y2="27"/>
         </svg>
-        <h3 class="svc-name">Lastik Satışı</h3>
-        <p class="svc-desc">Binek, SUV, kamyon ve otobüs için geniş lastik yelpazemizden uygun fiyata lastik alın.</p>
+        <h3 class="svc-name">Lastik &amp; Jant Satışı</h3>
+        <p class="svc-desc">Binek, SUV, kamyon ve TIR için geniş lastik ve jant yelpazemizden uygun fiyata alın.</p>
       </div>
-      <div class="svc-card fade-up" style="transition-delay:.14s">
-        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="7" y="19" width="32" height="8" rx="2"/>
-          <line x1="23" y1="9" x2="23" y2="19"/><circle cx="23" cy="7" r="2.5"/>
-          <line x1="11" y1="27" x2="11" y2="39"/><line x1="35" y1="27" x2="35" y2="39"/>
-          <line x1="6" y1="39" x2="40" y2="39"/>
-        </svg>
-        <h3 class="svc-name">Rot-Balans Ayarı</h3>
-        <p class="svc-desc">Tekerleklerinizin dengesini ve rot ayarını hassas ekipmanlarla yaparak yakıt tüketimini düşürün.</p>
-      </div>
-      <div class="svc-card fade-up" style="transition-delay:.21s">
-        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="23" cy="23" r="12"/>
-          <line x1="23" y1="4" x2="23" y2="11"/><line x1="23" y1="35" x2="23" y2="42"/>
-          <line x1="4" y1="23" x2="11" y2="23"/><line x1="35" y1="23" x2="42" y2="23"/>
-          <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"/><line x1="32.5" y1="32.5" x2="37.5" y2="37.5"/>
-          <line x1="37.5" y1="8.5" x2="32.5" y2="13.5"/><line x1="13.5" y1="32.5" x2="8.5" y2="37.5"/>
-          <circle cx="23" cy="23" r="4"/>
-        </svg>
-        <h3 class="svc-name">Mevsimlik Değişim</h3>
-        <p class="svc-desc">Kış-yaz lastik değişimlerini hızla yapıyoruz. Lastik oteli hizmetiyle lastiklerinizi güvenle depoluyoruz.</p>
-      </div>
+
     </div>
   </div>
 </section>
