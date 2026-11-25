@@ -1,795 +1,534 @@
 <title>Pozantı Lastikçi</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap">
 
 <style>
-/* Layout: full-bleed bands, centered inner wrappers, sticky nav */
+/* Layout: full-bleed hero + alternating dark bands */
 :root {
-  --bg:         #0D0C0B;
-  --surface:    #181614;
-  --surface-2:  #222019;
-  --accent:     #E85D04;
-  --accent-dim: #9C3D02;
-  --fg:         #F0EBE5;
-  --fg-muted:   #7D7570;
-  --border:     #2A2724;
+  --bg:       #070706;
+  --s1:       #0F0E0C;
+  --s2:       #161512;
+  --glass:    rgba(255,255,255,0.04);
+  --gb:       rgba(255,255,255,0.09);
+  --a1:       #FF5500;
+  --a2:       #FF9900;
+  --glow:     rgba(255,85,0,.35);
+  --glow-sm:  rgba(255,85,0,.18);
+  --fg:       #F4EFE9;
+  --muted:    #5E5852;
+  --border:   #1F1D1A;
   color-scheme: dark;
 }
-
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg:         #F5F1EC;
-    --surface:    #EBE6DF;
-    --surface-2:  #DDD8D1;
-    --accent:     #C4500A;
-    --accent-dim: #E87A3A;
-    --fg:         #18160F;
-    --fg-muted:   #6B6560;
-    --border:     #CEC9C1;
+    --bg:      #F7F3EE;
+    --s1:      #EDE8E2;
+    --s2:      #E3DDD6;
+    --glass:   rgba(255,255,255,0.65);
+    --gb:      rgba(0,0,0,0.08);
+    --a1:      #D14800;
+    --a2:      #E87A00;
+    --glow:    rgba(209,72,0,.25);
+    --glow-sm: rgba(209,72,0,.12);
+    --fg:      #17130D;
+    --muted:   #6B6560;
+    --border:  #D5CFCA;
     color-scheme: light;
   }
 }
 :root[data-theme="light"] {
-  --bg:         #F5F1EC;
-  --surface:    #EBE6DF;
-  --surface-2:  #DDD8D1;
-  --accent:     #C4500A;
-  --accent-dim: #E87A3A;
-  --fg:         #18160F;
-  --fg-muted:   #6B6560;
-  --border:     #CEC9C1;
+  --bg:      #F7F3EE;
+  --s1:      #EDE8E2;
+  --s2:      #E3DDD6;
+  --glass:   rgba(255,255,255,0.65);
+  --gb:      rgba(0,0,0,0.08);
+  --a1:      #D14800;
+  --a2:      #E87A00;
+  --glow:    rgba(209,72,0,.25);
+  --glow-sm: rgba(209,72,0,.12);
+  --fg:      #17130D;
+  --muted:   #6B6560;
+  --border:  #D5CFCA;
   color-scheme: light;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;overflow-x:hidden}
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--fg);
-  line-height: 1.6;
-}
-
-/* status-bar strip */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0 0 auto;
-  height: env(safe-area-inset-top, 0px);
-  z-index: 110;
-  background: var(--surface);
-}
+/* safe-area strip */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:120;background:var(--bg)}
 
 /* ── NAV ── */
-nav {
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 100;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:110;
+  background:rgba(7,7,6,.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .3s;
 }
-.nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,.5)}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:.85rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
 }
-.logo {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+.logo{
+  font-family:'Oswald',sans-serif;font-weight:700;font-size:1.55rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:#fff;text-decoration:none;
+  display:flex;align-items:center;gap:.65rem;
 }
-.logo-mark {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
+.logo-ring{width:30px;height:30px;flex-shrink:0}
+.logo em{font-style:normal;background:linear-gradient(135deg,var(--a1),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:1.75rem;list-style:none;margin:0;padding:0}
+.nav-links a{font-family:'Oswald',sans-serif;font-weight:400;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--a1)}
+.nav-call{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  color:#fff;font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:1.2rem;letter-spacing:.04em;text-transform:uppercase;
+  text-decoration:none;padding:.55rem 1.4rem;
+  box-shadow:0 0 20px var(--glow-sm);
+  transition:box-shadow .3s,opacity .2s;
 }
-.logo em { font-style: normal; color: var(--accent); }
-.nav-links {
-  display: flex;
-  gap: 1.75rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-links a {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 400;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  text-decoration: none;
-  transition: color .2s;
-}
-.nav-links a:hover { color: var(--accent); }
-.nav-phone {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  text-decoration: none;
-  border: 1.5px solid var(--accent);
-  padding: 0.4rem 1rem;
-  transition: background .2s, color .2s;
-}
-.nav-phone:hover { background: var(--accent); color: #fff; }
+.nav-call:hover{box-shadow:0 0 32px var(--glow);opacity:.92}
 
 /* ── HERO ── */
-.hero {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-.hero-bg-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image:
-    repeating-linear-gradient(0deg, var(--fg) 0, var(--fg) 1px, transparent 0, transparent 32px),
-    repeating-linear-gradient(90deg, var(--fg) 0, var(--fg) 1px, transparent 0, transparent 32px);
-}
-.hero-accent-band {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 4px;
-  background: var(--accent);
-}
-.hero-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 5rem;
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 3rem;
-  align-items: center;
-  position: relative;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--accent);
-  color: #fff;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  margin-bottom: 1.5rem;
-}
-.hero-badge::before {
-  content: "";
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  background: #fff;
-  border-radius: 50%;
-  animation: pulse 1.8s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .5; transform: scale(0.7); }
-}
-.hero-title {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  margin: 0 0 1.5rem;
-  text-wrap: balance;
-}
-.hero-title em {
-  font-style: normal;
-  color: var(--accent);
-  display: block;
-}
-.hero-sub {
-  font-size: 1.05rem;
-  color: var(--fg-muted);
-  max-width: 500px;
-  margin: 0 0 2.5rem;
-  line-height: 1.75;
-}
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.btn-orange {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--accent);
-  color: #fff;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.85rem 1.75rem;
-  transition: background .2s;
-}
-.btn-orange:hover { background: var(--accent-dim); }
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: var(--fg);
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.85rem 1.75rem;
-  border: 1.5px solid var(--border);
-  transition: border-color .2s;
-}
-.btn-outline:hover { border-color: var(--fg-muted); }
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
 
-/* tire SVG */
-.hero-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* animated diagonal speed-lines */
+.hero-lines{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(
+    110deg,
+    transparent 0,transparent 28px,
+    rgba(255,85,0,.025) 28px,rgba(255,85,0,.025) 30px
+  );
+  animation:speed 3s linear infinite;
 }
-.tire-svg {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
+@keyframes speed{from{background-position:0 0}to{background-position:80px 0}}
+
+/* radial glow behind tire */
+.hero-glow-orb{
+  position:absolute;right:5%;top:50%;
+  transform:translateY(-50%);
+  width:520px;height:520px;
+  background:radial-gradient(circle,rgba(255,85,0,.14) 0%,transparent 70%);
+  pointer-events:none;
 }
 
-/* ── STATS BAND ── */
-.stats-band { background: var(--accent); }
-.stats-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 1.5rem;
-  display: flex;
-  justify-content: space-around;
-  gap: 1rem;
-  flex-wrap: wrap;
+.hero-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:6rem;
+  display:grid;grid-template-columns:1fr 340px;gap:3rem;
+  align-items:center;position:relative;
 }
-.stat { text-align: center; color: #fff; }
-.stat-n {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 1;
-  display: block;
-  font-variant-numeric: tabular-nums;
+.hero-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid var(--a1);color:var(--a1);
+  font-family:'Oswald',sans-serif;font-weight:600;font-size:.7rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:.3rem .8rem;margin-bottom:1.4rem;
 }
-.stat-l {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  font-family: 'Oswald', sans-serif;
+.hero-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--a1);animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.65)}}
+
+.hero-h1{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:clamp(3rem,8vw,6.5rem);line-height:.95;
+  letter-spacing:-.01em;text-transform:uppercase;
+  margin:0 0 1.5rem;
 }
+.hero-h1 .line1{display:block;color:var(--fg)}
+.hero-h1 .line2{
+  display:block;
+  background:linear-gradient(135deg,var(--a1) 0%,var(--a2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:480px;margin:0 0 2.5rem;line-height:1.75}
+.hero-sub strong{color:var(--fg);font-weight:600}
+
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-fire{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  color:#fff;font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;padding:.9rem 2rem;
+  box-shadow:0 0 28px var(--glow);
+  animation:glow-pulse 2.5s ease-in-out infinite;
+  transition:transform .2s;
+}
+.btn-fire:hover{transform:translateY(-2px)}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 28px var(--glow)}50%{box-shadow:0 0 48px var(--glow),0 0 80px rgba(255,85,0,.15)}}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--glass);border:1px solid var(--gb);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:var(--fg);font-family:'Oswald',sans-serif;font-weight:600;
+  font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;padding:.9rem 2rem;
+  transition:border-color .2s,background .2s;
+}
+.btn-ghost:hover{border-color:var(--muted);background:rgba(255,255,255,.07)}
+
+/* spinning tire */
+.hero-visual{display:flex;align-items:center;justify-content:center}
+.tire-wrap{
+  width:min(300px,100%);height:auto;aspect-ratio:1;
+  animation:tire-spin 14s linear infinite;
+  filter:drop-shadow(0 0 30px rgba(255,85,0,.2));
+}
+@keyframes tire-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ── STATS ── */
+.stats-section{background:var(--s1);border-bottom:1px solid var(--border)}
+.stats-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:3rem;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem;
+}
+.stat-card{
+  background:var(--glass);border:1px solid var(--gb);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:1.75rem 1.5rem;text-align:center;
+  transition:border-color .3s,box-shadow .3s;
+}
+.stat-card:hover{border-color:rgba(255,85,0,.4);box-shadow:0 0 24px var(--glow-sm)}
+.stat-num{
+  font-family:'Oswald',sans-serif;font-weight:700;font-size:2.75rem;line-height:1;
+  display:block;margin-bottom:.4rem;font-variant-numeric:tabular-nums;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-label{font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* ── SERVICES ── */
-.services { border-bottom: 1px solid var(--border); }
-.services-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 5rem;
+.svc-section{border-bottom:1px solid var(--border)}
+.svc-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:5.5rem;
 }
-.section-eye {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 400;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 0.6rem;
-}
-.section-title {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  text-transform: uppercase;
-  margin: 0 0 3rem;
-  line-height: 1.05;
-  text-wrap: balance;
-}
+.section-eye{font-family:'Oswald',sans-serif;font-weight:400;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--a1);margin:0 0 .6rem}
+.section-h2{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;margin:0 0 3rem;line-height:1.05;text-wrap:balance}
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  border: 1px solid var(--border);
-  gap: 0;
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.25rem}
+.svc-card{
+  background:var(--glass);border:1px solid var(--gb);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:2rem;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s,border-color .35s;
+  position:relative;overflow:hidden;
 }
-.svc-card {
-  padding: 2rem;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  transition: background .2s;
+.svc-card::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,85,0,.06) 0%,transparent 60%);
+  opacity:0;transition:opacity .35s;
 }
-.svc-card:hover { background: var(--surface); }
-.svc-icon {
-  width: 44px;
-  height: 44px;
-  margin-bottom: 1.25rem;
-  color: var(--accent);
-}
-.svc-name {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  margin: 0 0 0.6rem;
-}
-.svc-desc {
-  font-size: 0.875rem;
-  color: var(--fg-muted);
-  line-height: 1.65;
-  margin: 0;
-}
+.svc-card:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(0,0,0,.4),0 0 32px var(--glow-sm);border-color:rgba(255,85,0,.35)}
+.svc-card:hover::before{opacity:1}
+.svc-icon{width:46px;height:46px;margin-bottom:1.25rem;color:var(--a1);filter:drop-shadow(0 0 8px var(--glow-sm))}
+.svc-name{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em;margin:0 0 .6rem}
+.svc-desc{font-size:.875rem;color:var(--muted);line-height:1.65;margin:0}
 
-/* ── WHY / LOCATION ── */
-.location { background: var(--surface); border-bottom: 1px solid var(--border); }
-.location-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
+/* ── LOCATION ── */
+.loc-section{background:var(--s1);border-bottom:1px solid var(--border)}
+.loc-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:5.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;
 }
-.location-title {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-  text-transform: uppercase;
-  margin: 0 0 1rem;
-  line-height: 1.05;
-  text-wrap: balance;
-}
-.location-desc {
-  color: var(--fg-muted);
-  margin: 0 0 2rem;
-  line-height: 1.75;
-}
-.feature-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.feature-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  font-size: 0.925rem;
-}
-.feat-arr {
-  color: var(--accent);
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 0.05em;
-  font-size: 1rem;
-}
+.loc-h2{font-family:'Oswald',sans-serif;font-weight:700;font-size:clamp(1.75rem,3.5vw,2.75rem);text-transform:uppercase;margin:0 0 1rem;line-height:1.05;text-wrap:balance}
+.loc-desc{color:var(--muted);margin:0 0 2rem;line-height:1.75}
+.feat-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.85rem}
+.feat-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.925rem}
+.feat-arr{color:var(--a1);font-family:'Oswald',sans-serif;font-weight:700;flex-shrink:0;font-size:1.1rem;line-height:1.5}
 
-/* road diagram */
-.road-map {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.road-card{
+  background:var(--glass);border:1px solid var(--gb);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:2rem;
 }
-.road-title {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  margin: 0 0 0.5rem;
-}
-.road-line {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-.road-city {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  color: var(--fg);
-  white-space: nowrap;
-}
-.road-dash {
-  flex: 1;
-  height: 1px;
-  background: repeating-linear-gradient(90deg, var(--border) 0, var(--border) 6px, transparent 6px, transparent 12px);
-  margin: 0 0.75rem;
-}
-.road-you {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0.5rem;
-}
-.road-dot {
-  width: 14px;
-  height: 14px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: relative;
-}
-.road-dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  opacity: 0.4;
-}
-.road-you-label {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-top: 0.4rem;
-  white-space: nowrap;
-}
-.road-km {
-  font-size: 0.75rem;
-  color: var(--fg-muted);
-  margin-top: 0.25rem;
-}
-.road-badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-.road-badge {
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid var(--border);
-  color: var(--fg-muted);
-  padding: 0.2rem 0.5rem;
-}
+.road-title{font-family:'Oswald',sans-serif;font-weight:600;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 1.75rem}
+.road-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
+.road-city{font-family:'Oswald',sans-serif;font-weight:600;font-size:.95rem;white-space:nowrap;color:var(--fg)}
+.road-dash{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 6px,transparent 6px,transparent 12px)}
+.road-pin{display:flex;flex-direction:column;align-items:center;gap:.35rem;margin:0 .25rem}
+.road-dot{width:14px;height:14px;border-radius:50%;background:var(--a1);box-shadow:0 0 10px var(--glow),0 0 24px var(--glow-sm);position:relative;flex-shrink:0}
+.road-dot::after{content:"";position:absolute;inset:-5px;border:1.5px solid var(--a1);border-radius:50%;opacity:.4}
+.road-pin-label{font-family:'Oswald',sans-serif;font-weight:700;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a1);white-space:nowrap}
+.road-km{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);padding:0 .1rem;margin-bottom:1.5rem}
+.road-badges{display:flex;gap:.5rem;flex-wrap:wrap}
+.rbadge{font-family:'Oswald',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border);color:var(--muted);padding:.2rem .55rem;transition:border-color .2s,color .2s}
+.rbadge:hover{border-color:var(--a1);color:var(--a1)}
 
 /* ── CONTACT ── */
-.contact { border-bottom: 1px solid var(--border); }
-.contact-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
+.contact-section{border-bottom:1px solid var(--border)}
+.contact-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:5.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;
 }
-.contact-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--fg-muted);
-  font-family: 'Oswald', sans-serif;
-  margin-bottom: 0.3rem;
+.c-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-family:'Oswald',sans-serif;margin-bottom:.35rem}
+.c-value{font-family:'Oswald',sans-serif;font-size:clamp(2.75rem,6vw,5rem);font-weight:700;line-height:1.1;color:var(--fg);display:block;margin-bottom:1.5rem;text-decoration:none;transition:color .2s,text-shadow .2s;letter-spacing:.02em}
+a.c-value:hover{color:var(--a1);text-shadow:0 0 32px var(--glow)}
+.c-addr{font-family:'Oswald',sans-serif;font-size:1.05rem;font-weight:400;line-height:1.5;color:var(--fg);display:block;margin-bottom:1.5rem}
+.hours-grid{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.5rem;font-size:.88rem;margin-bottom:2rem}
+.h-day{color:var(--muted)}.h-time{font-weight:500}.h-open{color:var(--a1);font-weight:700}
+.map-box{
+  background:var(--glass);border:1px solid var(--gb);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:3rem 2rem;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;min-height:280px;
+  transition:border-color .3s,box-shadow .3s;
 }
-.contact-value {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--fg);
-  display: block;
-  margin-bottom: 1.5rem;
-  text-decoration: none;
-  transition: color .2s;
-  line-height: 1.1;
+.map-box:hover{border-color:rgba(255,85,0,.35);box-shadow:0 0 32px var(--glow-sm)}
+.map-icon-wrap{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(255,85,0,.2),rgba(255,153,0,.1));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 24px var(--glow-sm);
 }
-a.contact-value:hover { color: var(--accent); }
-.contact-address {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--fg);
-  display: block;
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
-}
-.hours-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.3rem 1.5rem;
-  font-size: 0.9rem;
-  margin-bottom: 2rem;
-}
-.hours-day { color: var(--fg-muted); }
-.hours-time { font-weight: 500; }
-.hours-open { color: var(--accent); font-weight: 600; }
+.map-title{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:.04em;text-align:center}
+.map-sub{font-size:.85rem;color:var(--muted);text-align:center;line-height:1.5}
 
-.map-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  min-height: 280px;
+/* ── FLOATING CALL ── */
+.float-call{
+  position:fixed;bottom:max(1.5rem,env(safe-area-inset-bottom,0px));
+  right:max(1.5rem,env(safe-area-inset-right,0px));
+  z-index:100;
+  display:flex;align-items:center;gap:.6rem;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  color:#fff;font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;padding:.85rem 1.5rem;
+  box-shadow:0 4px 20px var(--glow),0 0 40px rgba(255,85,0,.2);
+  animation:float-pulse 2.8s ease-in-out infinite;
+  transition:transform .2s;
 }
-.map-icon { color: var(--accent); }
-.map-text {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
-}
-.map-sub { font-size: 0.85rem; color: var(--fg-muted); text-align: center; }
+.float-call:hover{transform:translateY(-3px)}
+@keyframes float-pulse{0%,100%{box-shadow:0 4px 20px var(--glow),0 0 40px rgba(255,85,0,.2)}50%{box-shadow:0 4px 32px var(--glow),0 0 60px rgba(255,85,0,.35)}}
 
 /* ── FOOTER ── */
-footer { background: var(--surface); }
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 2rem;
-  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--border);
+footer{background:var(--s1)}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:1.75rem;
+  padding-bottom:max(1.75rem,env(safe-area-inset-bottom,0px));
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+  border-top:1px solid var(--border);
 }
-.footer-logo {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
-}
-.footer-logo em { font-style: normal; color: var(--accent); }
-.footer-copy { font-size: 0.8rem; color: var(--fg-muted); }
+.f-logo{font-family:'Oswald',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-decoration:none}
+.f-logo em{font-style:normal;background:linear-gradient(135deg,var(--a1),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.f-copy{font-size:.78rem;color:var(--muted)}
+
+/* ── FADE-IN SCROLL ANIMATION ── */
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
 
 /* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-visual { display: none; }
-  .location-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .nav-links { display: none; }
-  .stats-inner { gap: 1.5rem; }
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .loc-inner{grid-template-columns:1fr;gap:2.5rem}
+  .contact-inner{grid-template-columns:1fr;gap:2.5rem}
+  .nav-links{display:none}
+  .hero-h1{font-size:clamp(2.5rem,12vw,4.5rem)}
 }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+@media(prefers-reduced-motion:reduce){
+  .tire-wrap,.hero-lines,.float-call,.btn-fire{animation:none}
+  .fade-up{opacity:1;transform:none;transition:none}
 }
 </style>
 
 <!-- NAV -->
-<nav>
+<nav id="topnav">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="2.5" opacity=".35"/>
-        <circle cx="14" cy="14" r="8" stroke="#E85D04" stroke-width="2"/>
-        <circle cx="14" cy="14" r="2.5" fill="#E85D04"/>
-        <line x1="14" y1="6" x2="14" y2="22" stroke="currentColor" stroke-width="1.2" opacity=".3"/>
-        <line x1="6" y1="14" x2="22" y2="14" stroke="currentColor" stroke-width="1.2" opacity=".3"/>
+      <svg class="logo-ring" viewBox="0 0 26 26" fill="none">
+        <circle cx="13" cy="13" r="11" stroke="currentColor" stroke-width="2" opacity=".25"/>
+        <circle cx="13" cy="13" r="7.5" stroke="url(#lg)" stroke-width="1.75"/>
+        <circle cx="13" cy="13" r="2.5" fill="url(#lg)"/>
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF5500"/><stop offset="1" stop-color="#FF9900"/>
+          </linearGradient>
+        </defs>
       </svg>
-      Pozantı <em>Lastikçi</em>
+      Pozantı <em>LASTİKÇİ</em>
     </a>
     <ul class="nav-links">
       <li><a href="#hizmetler">Hizmetler</a></li>
       <li><a href="#konum">Konum</a></li>
       <li><a href="#iletisim">İletişim</a></li>
     </ul>
-    <a href="tel:+905441506315" class="nav-phone">0544 150 63 15</a>
+    <a href="tel:+905441506315" class="nav-call">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+      0544 150 63 15
+    </a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg-pattern"></div>
-  <div class="hero-accent-band"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-glow-orb"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-badge">7/24 Açık &nbsp;— Pozantı, Adana</div>
-      <h1 class="hero-title">
-        Yolda
-        <em>Kalmayınız</em>
+      <div class="hero-pill">7/24 Açık &nbsp;— Pozantı, Adana</div>
+      <h1 class="hero-h1">
+        <span class="line1">Yolda</span>
+        <span class="line2">Kalmayın</span>
       </h1>
       <p class="hero-sub">
-        Ankara–Adana E5 karayolunun kalbinde, Toroslar'ın güvenilir lastikçisi.
-        Araç lastiklerinizde her türlü ihtiyaç için 7 gün 24 saat hizmetinizdeyiz.
+        <strong>Ankara–Adana E5</strong> karayolunun kalbinde,
+        Toroslar'ın güvenilir lastikçisi.<br>
+        Her lastik ihtiyacınız için 7 gün 24 saat hizmetinizdeyiz.
       </p>
-      <div class="hero-actions">
-        <a href="tel:+905441506315" class="btn-orange">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+      <div class="hero-btns">
+        <a href="tel:+905441506315" class="btn-fire">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
           Hemen Ara
         </a>
-        <a href="#hizmetler" class="btn-outline">Hizmetlerimiz</a>
+        <a href="#hizmetler" class="btn-ghost">Hizmetlerimiz</a>
       </div>
     </div>
     <div class="hero-visual">
-      <svg class="tire-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Outer tire body -->
-        <circle cx="150" cy="150" r="138" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
-        <!-- Tire tread ring -->
-        <circle cx="150" cy="150" r="138" fill="none" stroke="var(--fg)" stroke-width="20" opacity=".1"/>
-        <!-- Tread blocks -->
-        <circle cx="150" cy="150" r="138" fill="none" stroke="var(--fg)" stroke-width="22" stroke-dasharray="18 10" opacity=".06"/>
-        <!-- Tire sidewall -->
-        <circle cx="150" cy="150" r="118" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
-        <!-- Rim outer edge -->
-        <circle cx="150" cy="150" r="98" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="2"/>
-        <!-- Rim spokes -->
-        <g stroke="var(--fg)" stroke-width="6" opacity=".2" stroke-linecap="round">
-          <line x1="150" y1="58" x2="150" y2="102"/>
-          <line x1="150" y1="198" x2="150" y2="242"/>
-          <line x1="58" y1="150" x2="102" y2="150"/>
-          <line x1="198" y1="150" x2="242" y2="150"/>
-          <line x1="85" y1="85" x2="115" y2="115"/>
-          <line x1="185" y1="185" x2="215" y2="215"/>
-          <line x1="215" y1="85" x2="185" y2="115"/>
-          <line x1="85" y1="215" x2="115" y2="185"/>
+      <svg class="tire-wrap" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tg" x1="0" y1="0" x2="300" y2="300" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF5500"/><stop offset="1" stop-color="#FF9900"/>
+          </linearGradient>
+          <radialGradient id="hub" cx="50%" cy="50%" r="50%">
+            <stop stop-color="#FF5500" stop-opacity=".9"/><stop offset="1" stop-color="#FF3300" stop-opacity=".6"/>
+          </radialGradient>
+        </defs>
+        <!-- outer tire -->
+        <circle cx="150" cy="150" r="140" fill="#111010" stroke="#1F1D1A" stroke-width="1"/>
+        <!-- tread ring -->
+        <circle cx="150" cy="150" r="140" fill="none" stroke="#1A1818" stroke-width="28"/>
+        <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="30" stroke-dasharray="22 10"/>
+        <!-- tread detail -->
+        <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,85,0,.08)" stroke-width="8" stroke-dasharray="6 26" stroke-dashoffset="13"/>
+        <!-- sidewall -->
+        <circle cx="150" cy="150" r="112" fill="#0D0C0B" stroke="#1F1D1A" stroke-width="1"/>
+        <!-- rim outer ring -->
+        <circle cx="150" cy="150" r="98" fill="#161412" stroke="url(#tg)" stroke-width="2"/>
+        <!-- spokes x5 -->
+        <g stroke="rgba(255,255,255,.18)" stroke-width="7" stroke-linecap="round">
+          <line x1="150" y1="58" x2="150" y2="98"/>
+          <line x1="150" y1="202" x2="150" y2="242"/>
+          <line x1="58" y1="150" x2="98" y2="150"/>
+          <line x1="202" y1="150" x2="242" y2="150"/>
+          <line x1="80" y1="80" x2="108" y2="108"/>
+          <line x1="192" y1="192" x2="220" y2="220"/>
+          <line x1="220" y1="80" x2="192" y2="108"/>
+          <line x1="80" y1="220" x2="108" y2="192"/>
         </g>
-        <!-- Spoke detail ends -->
-        <g fill="var(--fg)" opacity=".15">
-          <circle cx="150" cy="68" r="7"/>
-          <circle cx="150" cy="232" r="7"/>
-          <circle cx="68" cy="150" r="7"/>
-          <circle cx="232" cy="150" r="7"/>
-          <circle cx="92" cy="92" r="7"/>
-          <circle cx="208" cy="208" r="7"/>
-          <circle cx="208" cy="92" r="7"/>
-          <circle cx="92" cy="208" r="7"/>
+        <!-- spoke caps -->
+        <g fill="rgba(255,255,255,.12)">
+          <circle cx="150" cy="66" r="8"/><circle cx="150" cy="234" r="8"/>
+          <circle cx="66" cy="150" r="8"/><circle cx="234" cy="150" r="8"/>
+          <circle cx="87" cy="87" r="8"/><circle cx="213" cy="213" r="8"/>
+          <circle cx="213" cy="87" r="8"/><circle cx="87" cy="213" r="8"/>
         </g>
-        <!-- Hub cap -->
-        <circle cx="150" cy="150" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
-        <circle cx="150" cy="150" r="20" fill="var(--accent)" opacity=".9"/>
-        <circle cx="150" cy="150" r="12" fill="var(--surface)"/>
-        <!-- Brand text on tire sidewall arc -->
-        <path id="tire-arc" d="M 55 150 A 95 95 0 0 1 245 150" fill="none"/>
-        <text font-family="Oswald, sans-serif" font-weight="700" font-size="11" letter-spacing="6" fill="var(--fg)" opacity=".25">
-          <textPath href="#tire-arc" startOffset="50%" text-anchor="middle">POZANTI LASTİKÇİ</textPath>
+        <!-- inner rim ring -->
+        <circle cx="150" cy="150" r="52" fill="#111010" stroke="rgba(255,85,0,.35)" stroke-width="1.5"/>
+        <!-- hub -->
+        <circle cx="150" cy="150" r="30" fill="url(#hub)"/>
+        <circle cx="150" cy="150" r="12" fill="#0D0C0B"/>
+        <!-- brand text -->
+        <path id="ta" d="M60 150 A90 90 0 0 1 240 150" fill="none"/>
+        <text font-family="Oswald,sans-serif" font-weight="700" font-size="10" letter-spacing="5.5" fill="rgba(255,255,255,.18)">
+          <textPath href="#ta" startOffset="50%" text-anchor="middle">POZANTI LASTİKÇİ</textPath>
         </text>
       </svg>
     </div>
   </div>
 </section>
 
-<!-- STATS BAND -->
-<div class="stats-band">
+<!-- STATS -->
+<section class="stats-section">
   <div class="stats-inner">
-    <div class="stat">
-      <span class="stat-n">7/24</span>
-      <span class="stat-l">Hizmet</span>
+    <div class="stat-card fade-up">
+      <span class="stat-num" data-count="15" data-suffix="+">15+</span>
+      <span class="stat-label">Yıllık Deneyim</span>
     </div>
-    <div class="stat">
-      <span class="stat-n">15+</span>
-      <span class="stat-l">Yıllık Deneyim</span>
+    <div class="stat-card fade-up" style="transition-delay:.08s">
+      <span class="stat-num">7/24</span>
+      <span class="stat-label">Kesintisiz Hizmet</span>
     </div>
-    <div class="stat">
-      <span class="stat-n">30dk</span>
-      <span class="stat-l">Ortalama Servis</span>
+    <div class="stat-card fade-up" style="transition-delay:.16s">
+      <span class="stat-num" data-count="30" data-suffix="dk">30dk</span>
+      <span class="stat-label">Ortalama Servis</span>
     </div>
-    <div class="stat">
-      <span class="stat-n">E5</span>
-      <span class="stat-l">Üzeri Konum</span>
+    <div class="stat-card fade-up" style="transition-delay:.24s">
+      <span class="stat-num">E5</span>
+      <span class="stat-label">Üzeri Konum</span>
     </div>
   </div>
-</div>
+</section>
 
 <!-- SERVICES -->
-<section class="services" id="hizmetler">
-  <div class="services-inner">
+<section class="svc-section" id="hizmetler">
+  <div class="svc-inner">
     <p class="section-eye">Hizmetlerimiz</p>
-    <h2 class="section-title">Her Lastik İhtiyacınız<br>İçin Buradayız</h2>
-    <div class="services-grid">
-      <!-- Lastik Tamiri -->
-      <div class="svc-card">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="22" cy="22" r="18"/>
-          <circle cx="22" cy="22" r="10"/>
-          <circle cx="22" cy="22" r="3"/>
-          <line x1="22" y1="4" x2="22" y2="12"/>
-          <line x1="22" y1="32" x2="22" y2="40"/>
-          <line x1="4" y1="22" x2="12" y2="22"/>
-          <line x1="32" y1="22" x2="40" y2="22"/>
+    <h2 class="section-h2">Her Lastik İhtiyacınız<br>İçin Buradayız</h2>
+    <div class="svc-grid">
+      <div class="svc-card fade-up">
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="23" cy="23" r="18"/><circle cx="23" cy="23" r="10"/><circle cx="23" cy="23" r="3.5"/>
+          <line x1="23" y1="5" x2="23" y2="13"/><line x1="23" y1="33" x2="23" y2="41"/>
+          <line x1="5" y1="23" x2="13" y2="23"/><line x1="33" y1="23" x2="41" y2="23"/>
         </svg>
         <h3 class="svc-name">Lastik Tamiri</h3>
         <p class="svc-desc">Patlak ya da delik lastiklerinizi hızla onarıyoruz. Yolda kalmadan en kısa sürede yola devam edin.</p>
       </div>
-      <!-- Lastik Satışı -->
-      <div class="svc-card">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <ellipse cx="22" cy="34" rx="16" ry="5"/>
-          <ellipse cx="22" cy="26" rx="16" ry="5"/>
-          <line x1="6" y1="26" x2="6" y2="34"/>
-          <line x1="38" y1="26" x2="38" y2="34"/>
-          <ellipse cx="22" cy="18" rx="16" ry="5"/>
-          <line x1="6" y1="18" x2="6" y2="26"/>
-          <line x1="38" y1="18" x2="38" y2="26"/>
+      <div class="svc-card fade-up" style="transition-delay:.07s">
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="23" cy="35" rx="16" ry="5"/><ellipse cx="23" cy="27" rx="16" ry="5"/>
+          <line x1="7" y1="27" x2="7" y2="35"/><line x1="39" y1="27" x2="39" y2="35"/>
+          <ellipse cx="23" cy="19" rx="16" ry="5"/>
+          <line x1="7" y1="19" x2="7" y2="27"/><line x1="39" y1="19" x2="39" y2="27"/>
         </svg>
         <h3 class="svc-name">Lastik Satışı</h3>
         <p class="svc-desc">Binek, SUV, kamyon ve otobüs için geniş lastik yelpazemizden uygun fiyata lastik alın.</p>
       </div>
-      <!-- Rot-Balans -->
-      <div class="svc-card">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="18" width="32" height="8" rx="2"/>
-          <line x1="22" y1="8" x2="22" y2="18"/>
-          <circle cx="22" cy="6" r="2.5"/>
-          <line x1="10" y1="26" x2="10" y2="38"/>
-          <line x1="34" y1="26" x2="34" y2="38"/>
-          <line x1="6" y1="38" x2="38" y2="38"/>
+      <div class="svc-card fade-up" style="transition-delay:.14s">
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="19" width="32" height="8" rx="2"/>
+          <line x1="23" y1="9" x2="23" y2="19"/><circle cx="23" cy="7" r="2.5"/>
+          <line x1="11" y1="27" x2="11" y2="39"/><line x1="35" y1="27" x2="35" y2="39"/>
+          <line x1="6" y1="39" x2="40" y2="39"/>
         </svg>
         <h3 class="svc-name">Rot-Balans Ayarı</h3>
-        <p class="svc-desc">Tekerleklerinizin dengesini ve rot ayarını hassas ekipmanlarla yaparak yakıt tüketimini düşürün, ömrünü uzatın.</p>
+        <p class="svc-desc">Tekerleklerinizin dengesini ve rot ayarını hassas ekipmanlarla yaparak yakıt tüketimini düşürün.</p>
       </div>
-      <!-- Mevsimlik Değişim -->
-      <div class="svc-card">
-        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="22" cy="22" r="12"/>
-          <line x1="22" y1="4" x2="22" y2="10"/>
-          <line x1="22" y1="34" x2="22" y2="40"/>
-          <line x1="4" y1="22" x2="10" y2="22"/>
-          <line x1="34" y1="22" x2="40" y2="22"/>
-          <line x1="8.1" y1="8.1" x2="12.3" y2="12.3"/>
-          <line x1="31.7" y1="31.7" x2="35.9" y2="35.9"/>
-          <line x1="35.9" y1="8.1" x2="31.7" y2="12.3"/>
-          <line x1="12.3" y1="31.7" x2="8.1" y2="35.9"/>
-          <circle cx="22" cy="22" r="4"/>
+      <div class="svc-card fade-up" style="transition-delay:.21s">
+        <svg class="svc-icon" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="23" cy="23" r="12"/>
+          <line x1="23" y1="4" x2="23" y2="11"/><line x1="23" y1="35" x2="23" y2="42"/>
+          <line x1="4" y1="23" x2="11" y2="23"/><line x1="35" y1="23" x2="42" y2="23"/>
+          <line x1="8.5" y1="8.5" x2="13.5" y2="13.5"/><line x1="32.5" y1="32.5" x2="37.5" y2="37.5"/>
+          <line x1="37.5" y1="8.5" x2="32.5" y2="13.5"/><line x1="13.5" y1="32.5" x2="8.5" y2="37.5"/>
+          <circle cx="23" cy="23" r="4"/>
         </svg>
         <h3 class="svc-name">Mevsimlik Değişim</h3>
         <p class="svc-desc">Kış-yaz lastik değişimlerini hızla yapıyoruz. Lastik oteli hizmetiyle lastiklerinizi güvenle depoluyoruz.</p>
@@ -798,18 +537,14 @@ footer { background: var(--surface); }
   </div>
 </section>
 
-<!-- LOCATION / WHY -->
-<section class="location" id="konum">
-  <div class="location-inner">
-    <div>
+<!-- LOCATION -->
+<section class="loc-section" id="konum">
+  <div class="loc-inner">
+    <div class="fade-up">
       <p class="section-eye">Stratejik Konum</p>
-      <h2 class="location-title">Toroslar'ın Geçiş<br>Noktasındayız</h2>
-      <p class="location-desc">
-        Pozantı, İstanbul–Ankara–Adana güzergahının kritik geçiş noktasıdır.
-        Her gün binlerce araç bu yoldan geçer. Biz de tam burada, hem yolcular
-        hem de yük araçları için 7/24 hizmet veriyoruz.
-      </p>
-      <ul class="feature-list">
+      <h2 class="loc-h2">Toroslar'ın<br>Geçiş Noktasında</h2>
+      <p class="loc-desc">Pozantı, İstanbul–Ankara–Adana güzergahının kritik geçiş noktasıdır. Her gün binlerce araç bu yoldan geçer. Biz de tam burada, hem yolcular hem de yük araçları için 7/24 hizmet veriyoruz.</p>
+      <ul class="feat-list">
         <li><span class="feat-arr">→</span> E5 karayolu üzeri, kolay erişim</li>
         <li><span class="feat-arr">→</span> Kamyon, TIR ve otobüs servisi</li>
         <li><span class="feat-arr">→</span> Yol yardım ve acil servis</li>
@@ -817,28 +552,25 @@ footer { background: var(--surface); }
         <li><span class="feat-arr">→</span> Fatura ve kurumsal hesap imkânı</li>
       </ul>
     </div>
-    <div>
-      <div class="road-map">
+    <div class="fade-up" style="transition-delay:.1s">
+      <div class="road-card">
         <p class="road-title">E5 / O-21 Güzergahı</p>
-        <div class="road-line">
+        <div class="road-row">
           <span class="road-city">Ankara</span>
           <div class="road-dash"></div>
-          <div class="road-you">
+          <div class="road-pin">
             <div class="road-dot"></div>
-            <span class="road-you-label">Pozantı</span>
+            <span class="road-pin-label">Pozantı</span>
           </div>
           <div class="road-dash"></div>
           <span class="road-city">Adana</span>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:.75rem; color:var(--fg-muted); padding: 0 0.25rem;">
-          <span>~340 km</span>
-          <span>~75 km</span>
-        </div>
+        <div class="road-km"><span>~340 km</span><span>~75 km</span></div>
         <div class="road-badges">
-          <span class="road-badge">E5</span>
-          <span class="road-badge">O-21</span>
-          <span class="road-badge">D-750</span>
-          <span class="road-badge">Toros Geçidi</span>
+          <span class="rbadge">E5</span>
+          <span class="rbadge">O-21</span>
+          <span class="rbadge">D-750</span>
+          <span class="rbadge">Toros Geçidi</span>
         </div>
       </div>
     </div>
@@ -846,41 +578,37 @@ footer { background: var(--surface); }
 </section>
 
 <!-- CONTACT -->
-<section class="contact" id="iletisim">
+<section class="contact-section" id="iletisim">
   <div class="contact-inner">
-    <div>
+    <div class="fade-up">
       <p class="section-eye">İletişim</p>
-      <h2 class="section-title" style="margin-bottom:2rem">Bize Ulaşın</h2>
+      <h2 class="section-h2" style="margin-bottom:2rem">Bize Ulaşın</h2>
 
-      <p class="contact-label">Telefon</p>
-      <a href="tel:+905441506315" class="contact-value">0544 150 63 15</a>
+      <p class="c-label">Telefon</p>
+      <a href="tel:+905441506315" class="c-value">0544 150 63 15</a>
 
-      <p class="contact-label">Adres</p>
-      <span class="contact-address">Ankara–Adana Karayolu Üzeri<br>Pozantı / Adana</span>
+      <p class="c-label">Adres</p>
+      <span class="c-addr">Ankara–Adana Karayolu Üzeri<br>Pozantı / Adana</span>
 
-      <p class="contact-label">Çalışma Saatleri</p>
+      <p class="c-label">Çalışma Saatleri</p>
       <div class="hours-grid">
-        <span class="hours-day">Pazartesi – Cuma</span>
-        <span class="hours-time hours-open">7/24 Açık</span>
-        <span class="hours-day">Cumartesi</span>
-        <span class="hours-time hours-open">7/24 Açık</span>
-        <span class="hours-day">Pazar</span>
-        <span class="hours-time hours-open">7/24 Açık</span>
+        <span class="h-day">Pazartesi – Cuma</span><span class="h-time h-open">7/24 Açık</span>
+        <span class="h-day">Cumartesi</span><span class="h-time h-open">7/24 Açık</span>
+        <span class="h-day">Pazar</span><span class="h-time h-open">7/24 Açık</span>
       </div>
-
-      <p style="font-size:.85rem; color:var(--fg-muted); margin:0;">
-        Acil yol yardım için numaramızı arayın — geceleri de yanınızdayız.
-      </p>
+      <p style="font-size:.82rem;color:var(--muted)">Acil yol yardım için numaramızı arayın — geceleri de yanınızdayız.</p>
     </div>
-    <div>
+    <div class="fade-up" style="transition-delay:.1s">
       <div class="map-box">
-        <svg class="map-icon" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-        <p class="map-text">Pozantı Lastikçi</p>
+        <div class="map-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="url(#mg)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="mg" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF5500"/><stop offset="1" stop-color="#FF9900"/></linearGradient></defs>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <p class="map-title">Pozantı Lastikçi</p>
         <p class="map-sub">Ankara–Adana Karayolu, Pozantı / Adana</p>
-        <a href="https://www.google.com/maps/search/Pozantı+Lastikçi" target="_blank" rel="noopener" class="btn-orange" style="font-size:.9rem; padding:.7rem 1.5rem; margin-top:.5rem;">
+        <a href="https://www.google.com/maps/search/Pozantı+Lastikçi+Adana" target="_blank" rel="noopener" class="btn-fire" style="font-size:.88rem;padding:.7rem 1.5rem;animation:none;box-shadow:0 0 20px var(--glow-sm)">
           Haritada Göster
         </a>
       </div>
@@ -888,10 +616,54 @@ footer { background: var(--surface); }
   </div>
 </section>
 
+<!-- FLOATING CALL BUTTON -->
+<a href="tel:+905441506315" class="float-call">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+  Ara
+</a>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <a href="#" class="footer-logo">Pozantı <em>Lastikçi</em></a>
-    <span class="footer-copy">© 2026 Pozantı Lastikçi — Tüm hakları saklıdır.</span>
+    <a href="#" class="f-logo">Pozantı <em>LASTİKÇİ</em></a>
+    <span class="f-copy">© 2026 Pozantı Lastikçi — Tüm hakları saklıdır.</span>
   </div>
 </footer>
+
+<script>
+// Nav scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topnav').classList.toggle('scrolled', window.scrollY > 40);
+}, {passive: true});
+
+// Scroll fade-in
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+  });
+}, {threshold: 0.12});
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// Animated counters
+function countUp(el, target, suffix, duration) {
+  const start = performance.now();
+  const update = t => {
+    const p = Math.min((t - start) / duration, 1);
+    const val = Math.round((1 - Math.pow(1 - p, 3)) * target);
+    el.textContent = val.toLocaleString('tr') + suffix;
+    if (p < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    if (!isNaN(target)) countUp(el, target, suffix, 1800);
+    countObs.unobserve(el);
+  });
+}, {threshold: 0.5});
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+</script>
