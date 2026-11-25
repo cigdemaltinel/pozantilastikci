@@ -1,0 +1,897 @@
+<title>Pozantı Lastikçi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+/* Layout: full-bleed bands, centered inner wrappers, sticky nav */
+:root {
+  --bg:         #0D0C0B;
+  --surface:    #181614;
+  --surface-2:  #222019;
+  --accent:     #E85D04;
+  --accent-dim: #9C3D02;
+  --fg:         #F0EBE5;
+  --fg-muted:   #7D7570;
+  --border:     #2A2724;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:         #F5F1EC;
+    --surface:    #EBE6DF;
+    --surface-2:  #DDD8D1;
+    --accent:     #C4500A;
+    --accent-dim: #E87A3A;
+    --fg:         #18160F;
+    --fg-muted:   #6B6560;
+    --border:     #CEC9C1;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:         #F5F1EC;
+  --surface:    #EBE6DF;
+  --surface-2:  #DDD8D1;
+  --accent:     #C4500A;
+  --accent-dim: #E87A3A;
+  --fg:         #18160F;
+  --fg-muted:   #6B6560;
+  --border:     #CEC9C1;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+/* status-bar strip */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 110;
+  background: var(--surface);
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.logo {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.logo em { font-style: normal; color: var(--accent); }
+.nav-links {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-phone {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1.5px solid var(--accent);
+  padding: 0.4rem 1rem;
+  transition: background .2s, color .2s;
+}
+.nav-phone:hover { background: var(--accent); color: #fff; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image:
+    repeating-linear-gradient(0deg, var(--fg) 0, var(--fg) 1px, transparent 0, transparent 32px),
+    repeating-linear-gradient(90deg, var(--fg) 0, var(--fg) 1px, transparent 0, transparent 32px);
+}
+.hero-accent-band {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 4px;
+  background: var(--accent);
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.hero-badge::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  border-radius: 50%;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(0.7); }
+}
+.hero-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+  display: block;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--fg-muted);
+  max-width: 500px;
+  margin: 0 0 2.5rem;
+  line-height: 1.75;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  transition: background .2s;
+}
+.btn-orange:hover { background: var(--accent-dim); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--fg);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  border: 1.5px solid var(--border);
+  transition: border-color .2s;
+}
+.btn-outline:hover { border-color: var(--fg-muted); }
+
+/* tire SVG */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tire-svg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
+
+/* ── STATS BAND ── */
+.stats-band { background: var(--accent); }
+.stats-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.stat { text-align: center; color: #fff; }
+.stat-n {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.25rem;
+  line-height: 1;
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+.stat-l {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  font-family: 'Oswald', sans-serif;
+}
+
+/* ── SERVICES ── */
+.services { border-bottom: 1px solid var(--border); }
+.services-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 5rem;
+}
+.section-eye {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  text-transform: uppercase;
+  margin: 0 0 3rem;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  border: 1px solid var(--border);
+  gap: 0;
+}
+.svc-card {
+  padding: 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+}
+.svc-card:hover { background: var(--surface); }
+.svc-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 1.25rem;
+  color: var(--accent);
+}
+.svc-name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.6rem;
+}
+.svc-desc {
+  font-size: 0.875rem;
+  color: var(--fg-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── WHY / LOCATION ── */
+.location { background: var(--surface); border-bottom: 1px solid var(--border); }
+.location-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.location-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.location-desc {
+  color: var(--fg-muted);
+  margin: 0 0 2rem;
+  line-height: 1.75;
+}
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+}
+.feat-arr {
+  color: var(--accent);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.05em;
+  font-size: 1rem;
+}
+
+/* road diagram */
+.road-map {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.road-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 0.5rem;
+}
+.road-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.road-city {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.road-dash {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--border) 0, var(--border) 6px, transparent 6px, transparent 12px);
+  margin: 0 0.75rem;
+}
+.road-you {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+.road-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: relative;
+}
+.road-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.road-you-label {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 0.4rem;
+  white-space: nowrap;
+}
+.road-km {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  margin-top: 0.25rem;
+}
+.road-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.road-badge {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  padding: 0.2rem 0.5rem;
+}
+
+/* ── CONTACT ── */
+.contact { border-bottom: 1px solid var(--border); }
+.contact-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.contact-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fg-muted);
+  font-family: 'Oswald', sans-serif;
+  margin-bottom: 0.3rem;
+}
+.contact-value {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--fg);
+  display: block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  transition: color .2s;
+  line-height: 1.1;
+}
+a.contact-value:hover { color: var(--accent); }
+.contact-address {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--fg);
+  display: block;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+.hours-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 1.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+.hours-day { color: var(--fg-muted); }
+.hours-time { font-weight: 500; }
+.hours-open { color: var(--accent); font-weight: 600; }
+
+.map-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 280px;
+}
+.map-icon { color: var(--accent); }
+.map-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.map-sub { font-size: 0.85rem; color: var(--fg-muted); text-align: center; }
+
+/* ── FOOTER ── */
+footer { background: var(--surface); }
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2rem;
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.footer-logo {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+}
+.footer-logo em { font-style: normal; color: var(--accent); }
+.footer-copy { font-size: 0.8rem; color: var(--fg-muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .location-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .nav-links { display: none; }
+  .stats-inner { gap: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="2.5" opacity=".35"/>
+        <circle cx="14" cy="14" r="8" stroke="#E85D04" stroke-width="2"/>
+        <circle cx="14" cy="14" r="2.5" fill="#E85D04"/>
+        <line x1="14" y1="6" x2="14" y2="22" stroke="currentColor" stroke-width="1.2" opacity=".3"/>
+        <line x1="6" y1="14" x2="22" y2="14" stroke="currentColor" stroke-width="1.2" opacity=".3"/>
+      </svg>
+      Pozantı <em>Lastikçi</em>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#konum">Konum</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+    <a href="tel:+905441506315" class="nav-phone">0544 150 63 15</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-accent-band"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">7/24 Açık &nbsp;— Pozantı, Adana</div>
+      <h1 class="hero-title">
+        Yolda
+        <em>Kalmayınız</em>
+      </h1>
+      <p class="hero-sub">
+        Ankara–Adana E5 karayolunun kalbinde, Toroslar'ın güvenilir lastikçisi.
+        Araç lastiklerinizde her türlü ihtiyaç için 7 gün 24 saat hizmetinizdeyiz.
+      </p>
+      <div class="hero-actions">
+        <a href="tel:+905441506315" class="btn-orange">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.08 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+          Hemen Ara
+        </a>
+        <a href="#hizmetler" class="btn-outline">Hizmetlerimiz</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg class="tire-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer tire body -->
+        <circle cx="150" cy="150" r="138" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
+        <!-- Tire tread ring -->
+        <circle cx="150" cy="150" r="138" fill="none" stroke="var(--fg)" stroke-width="20" opacity=".1"/>
+        <!-- Tread blocks -->
+        <circle cx="150" cy="150" r="138" fill="none" stroke="var(--fg)" stroke-width="22" stroke-dasharray="18 10" opacity=".06"/>
+        <!-- Tire sidewall -->
+        <circle cx="150" cy="150" r="118" fill="var(--surface)" stroke="var(--border)" stroke-width="1"/>
+        <!-- Rim outer edge -->
+        <circle cx="150" cy="150" r="98" fill="var(--surface-2)" stroke="var(--accent)" stroke-width="2"/>
+        <!-- Rim spokes -->
+        <g stroke="var(--fg)" stroke-width="6" opacity=".2" stroke-linecap="round">
+          <line x1="150" y1="58" x2="150" y2="102"/>
+          <line x1="150" y1="198" x2="150" y2="242"/>
+          <line x1="58" y1="150" x2="102" y2="150"/>
+          <line x1="198" y1="150" x2="242" y2="150"/>
+          <line x1="85" y1="85" x2="115" y2="115"/>
+          <line x1="185" y1="185" x2="215" y2="215"/>
+          <line x1="215" y1="85" x2="185" y2="115"/>
+          <line x1="85" y1="215" x2="115" y2="185"/>
+        </g>
+        <!-- Spoke detail ends -->
+        <g fill="var(--fg)" opacity=".15">
+          <circle cx="150" cy="68" r="7"/>
+          <circle cx="150" cy="232" r="7"/>
+          <circle cx="68" cy="150" r="7"/>
+          <circle cx="232" cy="150" r="7"/>
+          <circle cx="92" cy="92" r="7"/>
+          <circle cx="208" cy="208" r="7"/>
+          <circle cx="208" cy="92" r="7"/>
+          <circle cx="92" cy="208" r="7"/>
+        </g>
+        <!-- Hub cap -->
+        <circle cx="150" cy="150" r="30" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/>
+        <circle cx="150" cy="150" r="20" fill="var(--accent)" opacity=".9"/>
+        <circle cx="150" cy="150" r="12" fill="var(--surface)"/>
+        <!-- Brand text on tire sidewall arc -->
+        <path id="tire-arc" d="M 55 150 A 95 95 0 0 1 245 150" fill="none"/>
+        <text font-family="Oswald, sans-serif" font-weight="700" font-size="11" letter-spacing="6" fill="var(--fg)" opacity=".25">
+          <textPath href="#tire-arc" startOffset="50%" text-anchor="middle">POZANTI LASTİKÇİ</textPath>
+        </text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat">
+      <span class="stat-n">7/24</span>
+      <span class="stat-l">Hizmet</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">15+</span>
+      <span class="stat-l">Yıllık Deneyim</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">30dk</span>
+      <span class="stat-l">Ortalama Servis</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">E5</span>
+      <span class="stat-l">Üzeri Konum</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="hizmetler">
+  <div class="services-inner">
+    <p class="section-eye">Hizmetlerimiz</p>
+    <h2 class="section-title">Her Lastik İhtiyacınız<br>İçin Buradayız</h2>
+    <div class="services-grid">
+      <!-- Lastik Tamiri -->
+      <div class="svc-card">
+        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="22" cy="22" r="18"/>
+          <circle cx="22" cy="22" r="10"/>
+          <circle cx="22" cy="22" r="3"/>
+          <line x1="22" y1="4" x2="22" y2="12"/>
+          <line x1="22" y1="32" x2="22" y2="40"/>
+          <line x1="4" y1="22" x2="12" y2="22"/>
+          <line x1="32" y1="22" x2="40" y2="22"/>
+        </svg>
+        <h3 class="svc-name">Lastik Tamiri</h3>
+        <p class="svc-desc">Patlak ya da delik lastiklerinizi hızla onarıyoruz. Yolda kalmadan en kısa sürede yola devam edin.</p>
+      </div>
+      <!-- Lastik Satışı -->
+      <div class="svc-card">
+        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="22" cy="34" rx="16" ry="5"/>
+          <ellipse cx="22" cy="26" rx="16" ry="5"/>
+          <line x1="6" y1="26" x2="6" y2="34"/>
+          <line x1="38" y1="26" x2="38" y2="34"/>
+          <ellipse cx="22" cy="18" rx="16" ry="5"/>
+          <line x1="6" y1="18" x2="6" y2="26"/>
+          <line x1="38" y1="18" x2="38" y2="26"/>
+        </svg>
+        <h3 class="svc-name">Lastik Satışı</h3>
+        <p class="svc-desc">Binek, SUV, kamyon ve otobüs için geniş lastik yelpazemizden uygun fiyata lastik alın.</p>
+      </div>
+      <!-- Rot-Balans -->
+      <div class="svc-card">
+        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="18" width="32" height="8" rx="2"/>
+          <line x1="22" y1="8" x2="22" y2="18"/>
+          <circle cx="22" cy="6" r="2.5"/>
+          <line x1="10" y1="26" x2="10" y2="38"/>
+          <line x1="34" y1="26" x2="34" y2="38"/>
+          <line x1="6" y1="38" x2="38" y2="38"/>
+        </svg>
+        <h3 class="svc-name">Rot-Balans Ayarı</h3>
+        <p class="svc-desc">Tekerleklerinizin dengesini ve rot ayarını hassas ekipmanlarla yaparak yakıt tüketimini düşürün, ömrünü uzatın.</p>
+      </div>
+      <!-- Mevsimlik Değişim -->
+      <div class="svc-card">
+        <svg class="svc-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="22" cy="22" r="12"/>
+          <line x1="22" y1="4" x2="22" y2="10"/>
+          <line x1="22" y1="34" x2="22" y2="40"/>
+          <line x1="4" y1="22" x2="10" y2="22"/>
+          <line x1="34" y1="22" x2="40" y2="22"/>
+          <line x1="8.1" y1="8.1" x2="12.3" y2="12.3"/>
+          <line x1="31.7" y1="31.7" x2="35.9" y2="35.9"/>
+          <line x1="35.9" y1="8.1" x2="31.7" y2="12.3"/>
+          <line x1="12.3" y1="31.7" x2="8.1" y2="35.9"/>
+          <circle cx="22" cy="22" r="4"/>
+        </svg>
+        <h3 class="svc-name">Mevsimlik Değişim</h3>
+        <p class="svc-desc">Kış-yaz lastik değişimlerini hızla yapıyoruz. Lastik oteli hizmetiyle lastiklerinizi güvenle depoluyoruz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION / WHY -->
+<section class="location" id="konum">
+  <div class="location-inner">
+    <div>
+      <p class="section-eye">Stratejik Konum</p>
+      <h2 class="location-title">Toroslar'ın Geçiş<br>Noktasındayız</h2>
+      <p class="location-desc">
+        Pozantı, İstanbul–Ankara–Adana güzergahının kritik geçiş noktasıdır.
+        Her gün binlerce araç bu yoldan geçer. Biz de tam burada, hem yolcular
+        hem de yük araçları için 7/24 hizmet veriyoruz.
+      </p>
+      <ul class="feature-list">
+        <li><span class="feat-arr">→</span> E5 karayolu üzeri, kolay erişim</li>
+        <li><span class="feat-arr">→</span> Kamyon, TIR ve otobüs servisi</li>
+        <li><span class="feat-arr">→</span> Yol yardım ve acil servis</li>
+        <li><span class="feat-arr">→</span> Gece servisinde tam kadro ekip</li>
+        <li><span class="feat-arr">→</span> Fatura ve kurumsal hesap imkânı</li>
+      </ul>
+    </div>
+    <div>
+      <div class="road-map">
+        <p class="road-title">E5 / O-21 Güzergahı</p>
+        <div class="road-line">
+          <span class="road-city">Ankara</span>
+          <div class="road-dash"></div>
+          <div class="road-you">
+            <div class="road-dot"></div>
+            <span class="road-you-label">Pozantı</span>
+          </div>
+          <div class="road-dash"></div>
+          <span class="road-city">Adana</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:.75rem; color:var(--fg-muted); padding: 0 0.25rem;">
+          <span>~340 km</span>
+          <span>~75 km</span>
+        </div>
+        <div class="road-badges">
+          <span class="road-badge">E5</span>
+          <span class="road-badge">O-21</span>
+          <span class="road-badge">D-750</span>
+          <span class="road-badge">Toros Geçidi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="iletisim">
+  <div class="contact-inner">
+    <div>
+      <p class="section-eye">İletişim</p>
+      <h2 class="section-title" style="margin-bottom:2rem">Bize Ulaşın</h2>
+
+      <p class="contact-label">Telefon</p>
+      <a href="tel:+905441506315" class="contact-value">0544 150 63 15</a>
+
+      <p class="contact-label">Adres</p>
+      <span class="contact-address">Ankara–Adana Karayolu Üzeri<br>Pozantı / Adana</span>
+
+      <p class="contact-label">Çalışma Saatleri</p>
+      <div class="hours-grid">
+        <span class="hours-day">Pazartesi – Cuma</span>
+        <span class="hours-time hours-open">7/24 Açık</span>
+        <span class="hours-day">Cumartesi</span>
+        <span class="hours-time hours-open">7/24 Açık</span>
+        <span class="hours-day">Pazar</span>
+        <span class="hours-time hours-open">7/24 Açık</span>
+      </div>
+
+      <p style="font-size:.85rem; color:var(--fg-muted); margin:0;">
+        Acil yol yardım için numaramızı arayın — geceleri de yanınızdayız.
+      </p>
+    </div>
+    <div>
+      <div class="map-box">
+        <svg class="map-icon" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <p class="map-text">Pozantı Lastikçi</p>
+        <p class="map-sub">Ankara–Adana Karayolu, Pozantı / Adana</p>
+        <a href="https://www.google.com/maps/search/Pozantı+Lastikçi" target="_blank" rel="noopener" class="btn-orange" style="font-size:.9rem; padding:.7rem 1.5rem; margin-top:.5rem;">
+          Haritada Göster
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">Pozantı <em>Lastikçi</em></a>
+    <span class="footer-copy">© 2026 Pozantı Lastikçi — Tüm hakları saklıdır.</span>
+  </div>
+</footer>
